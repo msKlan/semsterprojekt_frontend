@@ -6,21 +6,23 @@ const Flight = props => {
 
   return (
     <li className="list-group-item">
+      {/* <p>{JSON.stringify(flight)}</p> */}
       <div className="row">
-            {flight.id}
-
-         <div className="col-2">{new Date(flight.createdAt).toLocaleString()}</div>
-         <div className="col">{flight.description}</div>
-         <div className="col-2 text-right">
+        <div className="col-2">{flight.QuoteId}</div>
+        <div className="col">{flight.OutboundLeg.DestinationId}</div>
+        <div className="col-2 text-right">
+          {flight.Direct ? "Direct" : "Indirect"}
+        </div>
+        {/* <div className="col-2 text-right">
            {flight.done ? new Date(flight.updatedAt).toLocaleString() : ""}
-         </div>
-         <div className="col-2 text-right">
-           <ActionButtons
-             flight={flight}
-             toogleFlight={toogleFlight}
-             deleteFlight={deleteFlight}
-           />
-         </div>
+         </div> */}
+        {/* <div className="col-2 text-right">
+          <ActionButtons
+            flight={flight}
+            toogleFlight={toogleFlight}
+            deleteFlight={deleteFlight}
+          />
+        </div> */}
       </div>
     </li>
   );

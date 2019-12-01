@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import ListHeaders from "../Components/ListHeaders";
-import FilterCity from "../Components/FilterCity";
-import SelectAirport from "../Components/SelectAirport";
-import Flight from "../Components/Flight";
-import Filter from "../Components/Filter";
+import ListHeaders from "./ListHeaders";
+import FilterCity from "./FilterCity";
+import SelectAirport from "./SelectAirport";
+import Flight from "./Flight";
+import Filter from "./Filter";
 import URL from "../settings";
 
 const List = props => {
@@ -20,7 +20,8 @@ const List = props => {
   const [arrAirports, setArrAirports] = useState([]);
   const [arrAirport, setArrAirport] = useState("");
 
-  const [flights, setFlights] = useState();
+  const [flights, setFlights] = useState([]);
+  const [flight, setFlight] = useState();
 
   const [date, setDate] = useState(new Date());
 
@@ -28,7 +29,7 @@ const List = props => {
 
   React.useEffect(() => {
     setLoading(true);
-    alert("useState")
+    console.log("useState");
     setLoading(false);
   }, []);
 
@@ -37,8 +38,10 @@ const List = props => {
     setLoading(true);
     // console.log("xxxx: ", apiFacade.getDepAirports(depFilterCity));
     apiFacade.getDepAirports(depFilterCity).then(data => {
-      console.log(data);
       setDepAirports(data.Places);
+      console.log(data.Places);
+      console.log("getDepAirports: ", data.Places[0].PlaceId);
+      setDepAirport(data.Places[0].PlaceId); // Set first which is default selected
     });
 
     setLoading(false);
@@ -51,20 +54,20 @@ const List = props => {
     apiFacade.getArrAirports(arrFilterCity).then(data => {
       console.log(data);
       setArrAirports(data.Places);
+      setArrAirport(data.Places[0].PlaceId); // Set first which is default selected
     });
 
     setLoading(false);
   };
 
   const getFlights = () => {
-    console.log("List-getFlights: ",depAirport, arrAirport, date);
-    // apiFacade.getFlights(depAirport, arrAirport, date)
-    //   .then (data => {
-    //     setFlights(data);
-    //     console.log("List-getFlights: ", data);
-    //   });
+    console.log("List-getFlights: ", depAirport, arrAirport, date);
+    apiFacade.getFlights(depAirport, arrAirport, date).then(data => {
+      setFlights(data.Quotes);
+      console.log("List-getFlights: ", data.Quotes);
+    });
   };
-  
+
   const toogleFlight = flight => {
     const { id, done } = flight;
 
@@ -73,7 +76,7 @@ const List = props => {
     setLoading(false);
   };
 
-  const deleteFlight= flight => {
+  const deleteFlight = flight => {
     const { id } = flight;
     setLoading(true);
     console.log("deleteFlight");
@@ -81,7 +84,7 @@ const List = props => {
   };
 
   const handleDateChange = date => {
-    setDate( date );
+    setDate(date);
   };
 
   return (
@@ -125,20 +128,19 @@ const List = props => {
       <div className="col-12">
         <ul className="list-group">
           <ListHeaders />
-          <p>{JSON.stringify(flights)}</p>
-          {/* {flights.map(flight => (
+          {/* <p>{JSON.stringify(flights[0])}</p> */}
+          {flights.map(flight => (
             <Flight
-              key={flight.id}
+              key={flight.QuoteId}
               flight={flight}
               toogleFlight={toogleFlight}
               deleteFlight={deleteFlight}
-              id={flight.id}
             />
-          ))} */}
+          ))}
         </ul>
       </div>
       <p>{JSON.stringify(depFilterCity)}</p>
-      <button onClick={getFlights()}>Get</button>
+      <button onClick={() => getFlights()}>Get</button>
     </div>
   );
 };

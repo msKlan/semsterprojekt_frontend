@@ -122,14 +122,26 @@ function apiFacade() {
   };
 
   const getFlights = (dep, arr, depDate) => {
-    alert("apiFacade-getFlights");
+    console.log("apiFacade-getFlights", depDate.toISOString().substring(0, 10));
     console.log(
       "apiFacade-getFlights: ",
-      URL + "/api/info/flights/" + dep + "/" + arr + "/" + Date.toString()
+      URL +
+        "/api/info/flights/" +
+        dep +
+        "/" +
+        arr +
+        "/" +
+        depDate.toISOString().substring(0, 10)
     );
     const options = makeOptions("GET", true);
     return fetch(
-      URL + "/api/info/flights/" + dep + "/" + arr + "/" + Date.toString(),
+      URL +
+        "/api/info/flights/" +
+        dep +
+        "/" +
+        arr +
+        "/" +
+        depDate.toISOString().substring(0, 10),
       options
     ).then(handleHttpErrors);
   };
