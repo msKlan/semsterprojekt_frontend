@@ -21,16 +21,6 @@ function Nav(props) {
                 Flights
               </NavLink>
             </li>
-            <li>
-              <NavLink activeClassName="active" to="/add-item">
-                Add item
-              </NavLink>
-            </li>
-            <li>
-              <NavLink activeClassName="active" to="/find-item">
-                Find item
-              </NavLink>
-            </li>
           </>
         )}
         <li>

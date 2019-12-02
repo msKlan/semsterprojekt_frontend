@@ -129,14 +129,18 @@ const List = props => {
         <ul className="list-group">
           <ListHeaders />
           {/* <p>{JSON.stringify(flights[0])}</p> */}
-          {flights.map(flight => (
-            <Flight
-              key={flight.QuoteId}
-              flight={flight}
-              toogleFlight={toogleFlight}
-              deleteFlight={deleteFlight}
-            />
-          ))}
+          {flights
+            .sort(function(a, b) {
+              return b.QuoteId - a.QuoteId;
+            })
+            .map(flight => (
+              <Flight
+                key={flight.QuoteId}
+                flight={flight}
+                toogleFlight={toogleFlight}
+                deleteFlight={deleteFlight}
+              />
+            ))}
         </ul>
       </div>
       <p>{JSON.stringify(depFilterCity)}</p>
